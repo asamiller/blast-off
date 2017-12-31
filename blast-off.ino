@@ -66,27 +66,27 @@ void loop() {
   int ledsPerColor = ceil(numPixels / (NUMBER_OF_COLORS-1));
 
   // the scale animation direction
-  if (scale <= 0.3 || scale >= 1) {
+  if (scale <= 0.5 || scale >= 1) {
     dir = dir * -1;
   }
 
   // add a random amount to inc
-  inc = ((float)random(-50, 50)/500);
+  inc = ((float)random(0, 100)/1000);
 
   // add the increment amount to the scale
   scale += (inc * dir);
 
   // constrain the scale
   scale = constrain(scale, 0.5, 1);
-    
+
   for(i=0; i<numPixels; i++) {
     float val = ((float)i * scale) / (float)ledsPerColor;
     int currentIndex = floor(val);
     int nextIndex = ceil(val);
-    
+
     float flux = (float)random(80, 100) / 100;
     float transition = fmod(val, 1);
-    
+
     RGBW currentColor = colors[currentIndex];
     RGBW nextColor = colors[nextIndex];
 
@@ -94,10 +94,10 @@ void loop() {
     int g = percentBetween(currentColor.g, nextColor.g, transition) * flux;
     int b = percentBetween(currentColor.b, nextColor.b, transition) * flux;
     int w = percentBetween(currentColor.w, nextColor.w, transition) * flux;
-    
+
     strip.setPixelColor(i, g, r, b, w);
   }
-  
+
   strip.show();
 //  delay(10);
 }
